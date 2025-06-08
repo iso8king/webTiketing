@@ -1,0 +1,130 @@
+   .custom-shape-divider-bottom-1748698869 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1748698869 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 171px;
+}
+
+.custom-shape-divider-bottom-1748698869 .shape-fill {
+    fill: #Ffffff;
+}
+
+.helpdesk-header {
+    position: relative;
+    margin-left: 40%;
+    margin-bottom: 2%;
+}
+
+.helpdesk-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%;
+    height: 6px;
+    background: #0065F8;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&display=swap');
+
+ 
+.ancizar {
+  font-family: "Ancizar Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.ancizar-semiBold{
+    
+  font-family: "Ancizar Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.search{
+    margin-bottom: auto;
+    height: 70px;
+    margin-top: 1%;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.search-input{
+
+    color: white;
+    border:0;
+    outline: 0;
+    background: none;
+    width: 0;
+    margin-top:5px;
+    caret-color:transparent;
+    line-height: 40px;
+    transition: width 0.4s linear;
+
+}
+
+.search .search-input{
+    padding: 0 10px;
+    width: 550px;
+    caret-color: #536bf6;
+    font-size: 17px;
+    font-weight: 300;
+    color: black;
+    transition: width 0.4s linear;
+}
+
+.search:hover > button {
+    background: #1A237E;
+    color: #fff;
+}
+
+button.search-icon {
+    height: 50px;
+    width: 50px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #536bf6;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%; /* Tambahan agar lebih modern */
+    transition: background 0.3s ease;
+}
+
+button.search-icon:hover {
+    background: #1A237E;
+}
+
+
+a:link{
+    text-decoration: none;
+}
+
+
+
+.gradient{
+    background-image:url('img/bg.jpeg');
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100vh;
+}
+
+#headerNav {
+    transition: background 0.5s ease;
+}

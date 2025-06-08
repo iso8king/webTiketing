@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="add.css">
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="home.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <!-- <div class="alert alert-success" role="alert">
+  A simple success alert—check it out!
+  </div> -->
+    <nav class="navbar navbar-expand-lg navbar-dark p-3 fixed-top " id="headerNav">
+      <div class="container-fluid">
+        <a class="navbar-brand d-block d-lg-none" href="#">
+          <img src="/static_files/images/logos/logo_2_white.png" height="80" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class=" collapse navbar-collapse" id="navbarNavDropdown" style="margin-left: 6%;">
+          <ul class="navbar-nav mx-auto ">
+           
+            <li class="nav-item d-none d-lg-block">
+              <a class="nav-link mx-2" href="#">
+                <img src="img/logo.png" height="25" />
+              </a>
+            </li>
+            <!-- <li class="nav-item dropdown">
+              <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Company
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="#">Blog</a></li>
+                <li><a class="dropdown-item" href="#">About Us</a></li>
+                <li><a class="dropdown-item" href="#">Contact us</a></li>
+              </ul>
+            </li> -->
+          </ul>
+
+            
+        </div>
+
+        <ul class="navbar-nav ms-auto ">
+            <li class="nav-item dropdown">
+               <% if(user) { %>
+    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-circle-user me-1"></i> <%= user %></a>
+      <ul class="dropdown-menu dropdown-menu-start" style="margin-left: -2vw;" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              </ul>
+<% } else { %>
+    <a class="nav-link mx-2" href="/login"><i class="fa-solid fa-circle-user me-1"></i>Login 
+<% } %>
+
+            </a>
+            </li>
+          </ul>
+      </div>
+    </nav>
+
+   
+
+<section class="gradient">
+    <div class="container">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-12 text-center d-block" style="margin-top: 28vh;">
+          <h1 class="text-white ancizar-semiBold">HelpDesk</h1>
+          <h1 class="ancizar text-white">Rumah Sakit Cipta Hospital</h1>
+
+        <div class="d-flex justify-content-center h-100">
+        <div class="search">
+           <form action="/messages" method="get">
+          <input type="text" class="search-input" id="pencarian" name="pencarian" placeholder="Pencarian Ticket......">
+            <button type="submit" class="search-icon">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+
+        </div>
+    </div>
+    
+        <div class="col-1"></div>
+    </div>
+</div>
+
+<!-- Svg Gelombang -->
+<div class="custom-shape-divider-bottom-1748698869">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>  
+</div>
+</section>
+
+
+
+<section style="height: 100vw;">
+
+    <div class="container">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-12 text-center d-block" style="margin-top: 5%;">
+          <div class="helpdesk-header"></div>
+          <h3 class="ancizar text-black">Halo Ada Yang Bisa Kami Bantu?</h3>
+
+          <div class="container text-start" style="margin-top: 3%;">
+            <div class="row">
+              <div class="col-6 justify-content-end d-flex">
+                <a data-bs-toggle="modal" href="#" data-bs-target="#staticBackdrop" style="text-decoration:none">
+                  <div class="card" style="width: 20rem;">
+                  <div class="card-body">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-2" style="display: flex;justify-content: center;align-items: center;">
+                            <i class="fa-solid fa-file fa-2xl"></i>
+                        </div>
+
+                        <div class="col-10">
+                          <h5 class="card-title">Kirim Tiket</h5>
+                          <p class="card-text">Kirim isu mu ke departemen</p>
+                          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </a>
+              </div>
+              <div class="col-6">
+                <a href="/messages?id=<%= id_pengguna %>" style="text-decoration: none;">
+                  <div class="card" style="width: 22rem;">
+                  <div class="card-body">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-2" style="display: flex;justify-content: center;align-items: center;">
+                            <i class="fa-solid fa-file fa-2xl"></i>
+                        </div>
+
+                        <div class="col-10">
+                          <h5 class="card-title">Cek Tiket</h5>
+                          <p class="card-text">Cek Tiket Yang Sudah Kamu Kirim</p>
+                          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-1"></div>
+    </div>
+</div>
+</section>
+
+<!-- modal -->
+<section>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Tiket Baru</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid px-1 py-5 mx-auto">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+            <!-- <h3>Request a Demo</h3>
+            <p class="blue-text">Just answer a few questions<br> so that we can personalize the right experience for you.</p> -->
+            <div class="card card-modal">
+                <form class="form-card" method="post" action="/add" onsubmit="return validateForm()">
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex"> <label class="form-control-label px-3">Nama<span class="text-danger"> *</span></label> <input type="text" id="fname" name="nama" value="<%= name%>" placeholder="Masukan Nama" onblur="validate(1)"> </div>
+                    </div>
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Email<span class="text-danger"> *</span></label> <input type="text" id="email" name="email" value="<%= email %>" placeholder="" onblur="validate(3)"> </div>
+                        <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Nomor Telepon<span class="text-danger"> *</span></label> <input type="text" id="mob" name="noTelp" placeholder="" onblur="validate(4)"> </div>
+                    </div>
+
+                     <div class="row justify-content-between text-left">
+                        <div class="form-group col-12 flex-column d-flex"> <label class="form-control-label px-3">Judul<span class="text-danger"> *</span></label> <input type="text" id="ans" name="judul" placeholder="" onblur="validate(6)"> </div>
+                    </div>
+
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-6 flex-column d-flex">
+    <label class="form-control-label px-3">Kategori<span class="text-danger"> *</span></label> 
+    <div class="input-group mb-3" id="kategori-group">
+        <input type="text" class="form-control" placeholder="" name="kategori" id="kategori">
+        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">Kategori</button>
+        <ul class="dropdown-menu">
+           <li><a class="dropdown-item kategori-item" href="#" data-value="Sistem">Sistem</a></li>
+           <li><a class="dropdown-item kategori-item" href="#" data-value="Pelayanan">Pelayanan</a></li>
+           <li><a class="dropdown-item kategori-item" href="#" data-value="Informasi">Informasi</a></li>
+        </ul>
+    </div> 
+</div>
+
+<div class="form-group col-sm-6 flex-column d-flex">
+    <label class="form-control-label px-3">Urgensi<span class="text-danger"> *</span></label>
+    <div class="input-group mb-3" id="urgensi-group">
+        <input type="text" name="urgensi" class="form-control" placeholder="" id="urgensi">
+        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">Urgensi</button>
+        <ul class="dropdown-menu">
+           <li><a class="dropdown-item urgensi-item" href="#" data-value="Rendah">Rendah</a></li>
+           <li><a class="dropdown-item urgensi-item" href="#" data-value="Menengah">Menengah</a></li>
+           <li><a class="dropdown-item urgensi-item" href="#" data-value="Penting">Penting</a></li>
+        </ul>
+    </div> 
+</div>
+
+                    
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-12 flex-column d-flex"> <label class="form-control-label px-3">Isi Tiket<span class="text-danger"> *</span></label> <textarea type="text" id="ans" name="isi" placeholder="" onblur="validate(6)" rows="4" cols="50"></textarea> </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-group col-sm-6"> <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn-block btn-primary">Kirim</button> </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="toast2" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+     <div class="d-flex">
+    <div class="toast-body">
+      Tiket Telah Terkirim
+    </div>
+    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  </div>
+</div>  
+</section>
+
+</body>
+
+<script>
+  window.addEventListener("scroll", scrollFunction);
+function scrollFunction() {
+    if (window.pageYOffset > window.innerHeight /1.2) {
+        document.getElementById("headerNav").style.background = "#0065F8";
+    } else {
+        document.getElementById("headerNav").style.background = "none";
+    }
+}
+
+ document.addEventListener("DOMContentLoaded", function() {
+    // Kategori dropdown
+    document.querySelectorAll(".kategori-item").forEach(item => {
+        item.addEventListener("click", function(event) {
+            event.preventDefault(); 
+            document.getElementById("kategori").value = this.getAttribute("data-value");
+        });
+    });
+
+    // Urgensi dropdown
+    document.querySelectorAll(".urgensi-item").forEach(item => {
+        item.addEventListener("click", function(event) {
+            event.preventDefault();
+            document.getElementById("urgensi").value = this.getAttribute("data-value");
+        });
+    });
+});
+
+function validateForm() {
+    let nama = document.getElementById("fname").value;
+    if (!nama) {
+        alert("Nama harus diisi!");
+        return false;
+    }
+    return true; 
+}
+
+</script>
+
+<script>
+   const toastLiveExample = document.getElementById('toast2');
+  var cek = <%= message %>;
+  console.log(cek);
+
+if (cek == true) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    toastBootstrap.show();
+}
+</script>
+
+</html>
+

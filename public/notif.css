@@ -1,0 +1,47 @@
+body {
+    background: #eee;
+}
+
+/* Button Styling */
+.btn {
+    margin-right: 0.5rem !important;
+    font-size: 0.875rem;
+    line-height: 1;
+    font-weight: 400;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.1275rem;
+}
+
+/* Container Styling */
+.container {
+    margin-top: 100px;
+}
+
+/* Toast Animation */
+.toast {
+    transition: 0.32s all ease-in-out;
+}
+
+/* Toast Container Position */
+.toast-container--fade {
+    right: 0;
+    bottom: 0;
+}
+
+/* Toast Wrapper Display */
+.toast-container--fade .toast-wrapper {
+    display: inline-block;
+}
+
+/* Toast Visibility States */
+.toast.fade-init {
+    opacity: 0;
+}
+
+.toast.fade-show {
+    opacity: 1;
+}
+
+.toast.fade-hide {
+    opacity: 0;
+}
