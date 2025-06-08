@@ -1,7 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
 const app = express();
 const session = require('express-session');
+
+
+console.log("MYSQL_HOST:", process.env.MYSQL_HOST);
+console.log("MYSQL_USER:", process.env.MYSQL_USER);
 
 app.listen(8778 , () =>{
     console.log("app berjalan di port 8778")
@@ -21,10 +26,11 @@ app.use(session({
 
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'formdb'
+   host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DB,
+    port: process.env.MYSQL_PORT
 });
 
 connection.connect(err => {
@@ -64,7 +70,7 @@ app.post('/registrasi',cekRegist,(req,res) => {
     const email = req.body.username;
     const nama = req.body.nama;
     const password = req.body.password;
-    var sql = `INSERT INTO user VALUES ('','${nama}','${email}','${password}')`
+    var sql = `INSERT INTO user (nama,email,password) VALUES ('${nama}','${email}','${password}')`
 
     if(email && password && nama){
         connection.query(sql,(err,result) => {
