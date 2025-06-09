@@ -246,6 +246,19 @@
 </div>  
 </section>
 
+<section>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="toast3" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+     <div class="d-flex">
+    <div class="toast-body">
+      Tidak Ada Tiket Yang Ditemukan
+    </div>
+    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  </div>
+</div>  
+</section>
+
  <nav class="navbar navbar-expand-lg navbar-dark p-3" style="background-color: #0065F8;" id="">
     
         <div class=" collapse navbar-collapse" id="navbarNavDropdown" style="padding-top: 15px;">
@@ -310,6 +323,17 @@ function validateForm() {
 
 if (cek == true) {
   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    toastBootstrap.show();
+}
+</script>
+
+<script>
+   const toastLiveExample2 = document.getElementById('toast3');
+  var cek2 = <%= messageErrr %>;
+
+
+if (cek2 == true) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample2)
     toastBootstrap.show();
 }
 </script>

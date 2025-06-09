@@ -188,7 +188,7 @@ app.get("/messages", (req, res) => {
         if (result2.length > 0) {
             return res.render('cekTiket', { data: result2, daysAgo, user: req.session.nama });
         } else {
-            return res.status(404).send("Ga ada data");
+            return res.redirect('/?messageErr=true');
         }
     });
 });
@@ -202,7 +202,7 @@ app.get('/regist' ,(req,res) => {
 
 app.get('/' , (req,res) =>{
     user1 = req.session.nama;
-    res.render("home" , {message : req.query.messageAdd,user : user1,name : req.session.nama,email : req.session.email , id_pengguna : req.session.id_pengguna});
+    res.render("home" , {messageErrr : req.query.messageErr,message : req.query.messageAdd,user : user1,name : req.session.nama,email : req.session.email , id_pengguna : req.session.id_pengguna});
 })
 
 app.post('/search',(req,res) => {
