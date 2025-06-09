@@ -35,6 +35,22 @@
     background: #0065F8;
 }
 
+.helpdesk-header2 {
+    position: relative;
+    margin-left: 43%;
+    margin-bottom: 2%;
+}
+
+.helpdesk-header2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 6px;
+    background: #0065F8;
+}
+
 
 
 @import url('https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&display=swap');

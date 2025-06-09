@@ -119,6 +119,7 @@ app.post('/login',(req,res) => {
                 req.session.email = result[0].email;
                 req.session.nama=result[0].nama;
                 req.session.id_pengguna = result[0].id
+                console.log(req.session.id_pengguna)
                res.redirect(`/`)
                
 

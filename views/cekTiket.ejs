@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Search || Helpdesk</title>
+    <link rel="shortcut icon" href="img/logo.png">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="add.css">
     <link rel="stylesheet" href="result.css">
@@ -29,7 +30,7 @@
           <ul class="navbar-nav mx-auto ">
            
             <li class="nav-item d-none d-lg-block">
-              <a class="nav-link mx-2" href="#">
+              <a class="nav-link mx-2" href="/">
                 <img src="img/logo.png" height="25" />
               </a>
             </li>
@@ -77,7 +78,11 @@
                                 <div class="result-header">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <div class="records">Showing: <b>1-20</b> of <b>200</b> result</div>
+                                            <div class="records">Showing: <b><%= data.length %></b> result</div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="records d-flex justify-content-end"><a href="#" style="text-decoration: none;padding-right: 10px;" onclick="window.history.back()">Kembali</a></div>
                                         </div>
                                         
                                     </div>
@@ -150,5 +155,21 @@
         </div>
     </div>
 </div>
+
+<nav class="navbar navbar-expand-lg navbar-dark p-3" style="background:transparent;" id="">
+    
+        <div class=" collapse navbar-collapse" id="navbarNavDropdown" style="padding-top: 15px;">
+          <ul class="navbar-nav mx-auto ">
+           
+            <li class="nav-item justify-content-center d-lg-block">
+              <p class="text-white">All rights reserved &#xA9; 2024 Ridho Firdaus.</p>
+              </a>
+            </li>
+          </ul>
+
+            
+        </div>
+      </div>
+    </nav>
 </body>
 </html>
