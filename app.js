@@ -172,7 +172,7 @@ app.get("/messages", (req, res) => {
   connection.query(sql, [search, search, search, search, search, search, search], (err, result) => {
     if (err) {
         console.error("Error Query 1:", err);
-        return res.status(500).send("Terjadi kesalahan");
+        return res.status(500).send("Terjadi kesalahan" , err);
     }
 
     if (result.length > 0) {

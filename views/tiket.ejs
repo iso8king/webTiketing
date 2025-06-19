@@ -104,7 +104,7 @@
         </div>
 
         <div class="row" style="margin-top: 5%;">
-            <div class="col-12" >
+            <div class="col-8" >
                     <div class="container padding" style="background: white;padding: 2%;border-radius: 2%;">
                         <section style="border-color: grey ; padding:20px">
                             <h4>Balasan</h4>
@@ -119,6 +119,49 @@
                     
                 
             </div>
+
+            <div class="col-4 padding">
+                    <div class="container bg-white padding" style="background: white;padding: 2%;border-radius: 5%;">
+                        <section style="margin-bottom: 2%;padding: 4%;">
+                            <h6 style="padding-top: 3%;">Rincian Balasan</h6>
+                            
+                            <section class=" border-bottom" style="border-color: grey ;padding-top: 10px;">
+                                <p><span style="font-weight: bold;"> ID Balasan :</span> 
+                                <% if (balasan[0] && balasan[0].id_balasan) { %>
+                                  <%= balasan[0].id_balasan %>
+                                    <%} else { %>
+                                      Belum Ada
+                                     <% } %>
+                                </p>
+                            </section>
+
+                             <section class=" border-bottom" style="border-color: grey ;padding-top: 10px;">
+                                <p><span style="font-weight: bold;">Nama Admin :</span> 
+                                <% if (balasan[0] && balasan[0].nama_admin) { %>
+                                  <%= balasan[0].nama_admin %>
+                                    <%} else { %>
+                                      Belum Ada
+                                     <% } %>
+                                </p>
+                            </section>
+
+                            <section class=" border-bottom" style="border-color: grey ;padding-top: 10px;">
+                                <p><span style="font-weight: bold;">Tanggal :</span> 
+                                
+                                  <% if (balasan[0] && balasan[0].id_balasan) { %>
+                                  <%= new Date(balasan[0].tanggal).toLocaleDateString('id-ID') %>
+                                    <%} else { %>
+                                      Belum Ada
+                                     <% } %>
+                                
+                                </p>
+                            </section>
+
+                            <a class="d-flex justify-content-end" href="#" style="padding-right: 3%;padding-top: 3%;text-decoration:none" onclick="window.history.back()">Kembali</a>
+                        </section>
+                    </div>
+                </div>
+
         </div>
     </div>
 
