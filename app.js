@@ -276,5 +276,18 @@ app.get('/notif' , (req,res) => {
   res.render('notif')
 })
 
+app.get('/pembayaran' , (req,res) => {
+  nomor_pembayaran = req.query.nompem;
+
+  connection.query(`update transakasi_tb set status='Selesai' where id = ?` ,[nomor_pembayaran], (err,result) => {
+    if(result){
+     res.status(500).send("Pembayaran Selesai Silahkan Cek Kembali Menu Pembayaran.")
+    }else{
+      console.log(err);
+    }
+  })
+
+})
+
 
 
