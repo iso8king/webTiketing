@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  nama     String @db.VarChar(50)
+  email    String @db.VarChar(50)
+  password String @db.VarChar(50)
+
+  @@map("admin")
+}
+
+model Entry {
+  id_tiket    Int      @id @default(autoincrement())
+  nama        String   @db.VarChar(100)
+  email       String   @db.VarChar(25)
+  no_telp     String   @db.VarChar(25)
+  tanggal     DateTime @default(now()) @db.Timestamp(0)
+  judul       String   @db.VarChar(100)
+  kategori    String   @db.VarChar(25)
+  urgensi     String   @db.VarChar(25)
+  isi         String   @db.VarChar(10000)
+  status      String   @default("Belum Selesai") @db.VarChar(20)
+  id_pengirim Int
+
+  @@index([id_pengirim], map: "id_pengirim")
+  @@map("entry")
+}
+
+model Reply {
+  id_balasan Int      @id @default(autoincrement())
+  id_tiket   Int
+  nama_admin String   @db.VarChar(50)
+  balasan    String   @db.VarChar(1000)
+  tanggal    DateTime @default(now()) @db.Timestamp(0)
+  edit       Boolean  @default(false)
+
+  @@map("reply")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  nama     String @db.VarChar(40)
+  email    String @db.VarChar(40)
+  password String @db.VarChar(24)
+
+  @@map("user")
+}

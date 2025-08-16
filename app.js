@@ -3,10 +3,11 @@ const express = require('express');
 const mysql = require('mysql2');
 const app = express();
 const session = require('express-session');
+import { prismaClient } from "src/prisma.client";
 
 
-console.log("MYSQL_HOST:", process.env.MYSQL_HOST);
-console.log("MYSQL_USER:", process.env.MYSQL_USER);
+// console.log("MYSQL_HOST:", process.env.MYSQL_HOST);
+// console.log("MYSQL_USER:", process.env.MYSQL_USER);
 
 app.listen(8778 , () =>{
     console.log("app berjalan di port 8778")
@@ -25,22 +26,22 @@ app.use(session({
 
 
 
-const connection = mysql.createConnection({
-   host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DB,
-    port: process.env.MYSQL_PORT
-});
+// const connection = mysql.createConnection({
+//    host: process.env.MYSQL_HOST,
+//     user: process.env.MYSQL_USER,
+//     password: process.env.MYSQL_PASSWORD,
+//     database: process.env.MYSQL_DB,
+//     port: process.env.MYSQL_PORT
+// });
 
-connection.connect(err => {
-  if (err) {
-    console.log(err);
-  }
-  else {
-  console.log('Connected to database');
-  }
-});
+// connection.connect(err => {
+//   if (err) {
+//     console.log(err);
+//   }
+//   else {
+//   console.log('Connected to database');
+//   }
+// });
 
 //middleware
 const cekLogin = (req,res,next) => {
@@ -61,6 +62,8 @@ const cekRegist = (req,res,next) => {
       }
       next();
     })
+
+    
 }
 
 //routing
@@ -105,33 +108,43 @@ app.get('/login' , (req,res) => {
     res.render('login' , {message : statusRegist , message2 : req.query.messageErr});
 });
 
-app.post('/login',(req,res) => {
+app.post('/login',async (req,res) => {
     const table = "user";
     const email = req.body.username;
     const password = req.body.password;
     var sql = `SELECT * FROM ${table} WHERE email="${email}" and password="${password}"`;
 
+    const logon = await prismaClient.user.findMany({
+        where : {
+            AND : [
+              {email : email},
+              {password : password}
+            ]
+        }
+    })
+    
 
-    connection.query(sql,(err,result) => {
-        try {
-            if(result.length>0) {
-                console.log(`user ${email} login`)
-                req.session.email = result[0].email;
-                req.session.nama=result[0].nama;
-                req.session.id_pengguna = result[0].id
-                console.log(req.session.id_pengguna)
-               res.redirect(`/`)
+
+    // connection.query(sql,(err,result) => {
+    //     try {
+    //         if(result.length>0) {
+    //             console.log(`user ${email} login`)
+    //             req.session.email = result[0].email;
+    //             req.session.nama=result[0].nama;
+    //             req.session.id_pengguna = result[0].id
+    //             console.log(req.session.id_pengguna)
+    //            res.redirect(`/`)
                
 
 
-            } else{
-                res.redirect('/login?messageErr=true')
-            }
+    //         } else{
+    //             res.redirect('/login?messageErr=true')
+    //         }
             
-        } catch (err) {
-            res.status(500)
-        }
-    })
+    //     } catch (err) {
+    //         res.status(500)
+    //     }
+    // })
 })
 
 
