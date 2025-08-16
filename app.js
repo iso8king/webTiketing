@@ -1,9 +1,11 @@
-require('dotenv').config();
-const express = require('express');
-const mysql = require('mysql2');
+
+import { prismaClient } from './src/prisma-client.js'
+import dotenv from 'dotenv'
+dotenv.config()
+import express from 'express'
+import mysql from 'mysql2'
+import session from 'express-session'
 const app = express();
-const session = require('express-session');
-import { prismaClient } from "src/prisma.client";
 
 
 // console.log("MYSQL_HOST:", process.env.MYSQL_HOST);
@@ -15,7 +17,7 @@ app.listen(8778 , () =>{
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('nodejs_form/public'));
 
 app.use(session({
     secret: "4nakpadan7",
@@ -25,23 +27,6 @@ app.use(session({
 }));
 
 
-
-// const connection = mysql.createConnection({
-//    host: process.env.MYSQL_HOST,
-//     user: process.env.MYSQL_USER,
-//     password: process.env.MYSQL_PASSWORD,
-//     database: process.env.MYSQL_DB,
-//     port: process.env.MYSQL_PORT
-// });
-
-// connection.connect(err => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   else {
-//   console.log('Connected to database');
-//   }
-// });
 
 //middleware
 const cekLogin = (req,res,next) => {
@@ -112,39 +97,39 @@ app.post('/login',async (req,res) => {
     const table = "user";
     const email = req.body.username;
     const password = req.body.password;
-    var sql = `SELECT * FROM ${table} WHERE email="${email}" and password="${password}"`;
 
     const logon = await prismaClient.user.findMany({
         where : {
-            AND : [
-              {email : email},
-              {password : password}
-            ]
+           AND : [
+            {
+              email : email
+            },
+            {
+              password : password
+            }
+           ]
         }
     })
     
+    try{
+      if(logon.length>0){
+        const logonn = logon[0];
+          console.info(`user ${logonn.email} telah login!`)
+          req.session.email = logonn.email;
+          req.session.nama = logonn.nama;
+          req.session.id_pengguna = logonn.id;
+          req.session.save(()=>{
+            res.redirect('/');
+          })
+    
+      }else{
+        res.redirect('/login?messageErr=true')
+      }
+    } catch(err){
+      res.status(500);
+      console.log(err);
+    }
 
-
-    // connection.query(sql,(err,result) => {
-    //     try {
-    //         if(result.length>0) {
-    //             console.log(`user ${email} login`)
-    //             req.session.email = result[0].email;
-    //             req.session.nama=result[0].nama;
-    //             req.session.id_pengguna = result[0].id
-    //             console.log(req.session.id_pengguna)
-    //            res.redirect(`/`)
-               
-
-
-    //         } else{
-    //             res.redirect('/login?messageErr=true')
-    //         }
-            
-    //     } catch (err) {
-    //         res.status(500)
-    //     }
-    // })
 })
 
 
@@ -214,7 +199,7 @@ app.get('/regist' ,(req,res) => {
 
 
 app.get('/' , (req,res) =>{
-    user1 = req.session.nama;
+    const user1 = req.session.nama;
     res.render("home" , {messageErrr : req.query.messageErr,message : req.query.messageAdd,user : user1,name : req.session.nama,email : req.session.email , id_pengguna : req.session.id_pengguna});
 })
 
