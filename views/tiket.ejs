@@ -70,8 +70,8 @@
                 <div class="col-8 padding">
                     <div class="container padding" style="background: white;padding: 2%;border-radius: 2%;">
                         <section style="border-color: grey ;margin-bottom: 2%;padding:20px">
-                            <h4> <%= resultTiket[0].judul %></h4>
-                            <p style="margin-top: 5%"><%= resultTiket[0].isi %></p>
+                            <h4> <%= resultTiket.judul %></h4>
+                            <p style="margin-top: 5%"><%= resultTiket.isi %></p>
                         </section>
                     </div>
                     
@@ -83,15 +83,15 @@
                             <h6 style="padding-top: 3%;">Rincian Tiket</h6>
                             
                             <section class=" border-bottom" style="border-color: grey ;padding-top: 10px;">
-                                <p><span style="font-weight: bold;">ID Tiket :</span> <%= resultTiket[0].id_tiket %></p>
+                                <p><span style="font-weight: bold;">ID Tiket :</span> <%= resultTiket.id_tiket %></p>
                             </section>
 
                              <section class=" border-bottom" style="border-color: grey ;padding-top: 10px;">
-                                <p><span style="font-weight: bold;">Kategori :</span> <%= resultTiket[0].kategori %> </p>
+                                <p><span style="font-weight: bold;">Kategori :</span> <%= resultTiket.kategori %> </p>
                             </section>
 
                             <section class=" border-bottom" style="border-color: grey ;padding-top: 10px;">
-                                <p><span style="font-weight: bold;">Tanggal:</span> <%= new Date(resultTiket[0].tanggal).toLocaleDateString('id-ID') %> </p>
+                                <p><span style="font-weight: bold;">Tanggal:</span> <%= new Date(resultTiket.tanggal).toLocaleDateString('id-ID') %> </p>
                             </section>
 
                             <a class="d-flex justify-content-end" href="#" style="padding-right: 3%;padding-top: 3%;text-decoration:none" onclick="window.history.back()">Kembali</a>

@@ -6,6 +6,9 @@ import express from 'express'
 import mysql from 'mysql2'
 import session from 'express-session'
 const app = express();
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { create } from 'domain'
 
 
 // console.log("MYSQL_HOST:", process.env.MYSQL_HOST);
@@ -17,7 +20,11 @@ app.listen(8778 , () =>{
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('nodejs_form/public'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
     secret: "4nakpadan7",
@@ -38,46 +45,58 @@ const cekLogin = (req,res,next) => {
   }
 }
 
-const cekRegist = (req,res,next) => {
-    connection.query(`select*from user` , (err,result) =>{
-      for(i=0;i<result.length;i++){
+//sebenernya middleware ini bisa gw atasin kalo pake unique di db tapi karena males gw konvert aja lah query nya ke prisma
+const cekRegist = async(req,res,next) => {
+   
+    const result = await prismaClient.user.findMany({
+      select : {
+        email : true
+      }
+    })
+
+    for(let i=0;i<result.length;i++){
           if(req.body.username === result[i].email){
            return res.redirect('/regist?messageRegist=true');
           }
       }
-      next();
-    })
 
-    
+      next();
+
+
+
 }
 
 //routing
 
-app.post('/registrasi',cekRegist,(req,res) => {
+app.post('/registrasi',cekRegist,async(req,res) => {
     const table = "user";
     const email = req.body.username;
     const nama = req.body.nama;
     const password = req.body.password;
-    var sql = `INSERT INTO user (nama,email,password) VALUES ('${nama}','${email}','${password}')`
+    
 
     if(email && password && nama){
-        connection.query(sql,(err,result) => {
-        try {
-            if(result) {
-                console.log(`user ${nama} dibuat`)
-                res.redirect("/login?message=true")
-            } else{
-                res.send(err);
-            }
-            
-        } catch (err) {
-            console.log(err);
-            res.status(500);
+      try {
+        const registPrisma = await prismaClient.user.create({
+        data : {
+          email : email,
+          nama : nama,
+          password : password
         }
-    })
-    }else{
-        res.send('input dulu yg bener woy semuanya')
+    });
+
+    if(registPrisma){
+        console.log(`user ${nama} dibuat`);
+        res.redirect("/login?message=true");
     }
+
+      } catch (e) {
+        console.log('error : ' +e);
+        res.status(500);
+      }
+    }
+
+
 
     
 })
@@ -133,23 +152,25 @@ app.post('/login',async (req,res) => {
 })
 
 
-app.post("/", (req, res) => {
-  const table = "entry";
+app.post("/", async(req, res) => {
   const name = req.body.user_name;
   const email = req.body.user_email;
   const message = req.body.user_message;
-  var sql = `INSERT INTO ${table} VALUES ("${name}","${email}", "${message}");`;
+  // var sql = `INSERT INTO ${table} VALUES ("${name}","${email}", "${message}");`;
 
-  connection.query(sql, (err, result) => {
-    if (err) {
-      console.log(err);
-      req.status(500);
-    } else {
-      console.log("1 record inserted");
-    }
+
+  const createTiket = await prismaClient.entry.create({
+      data : {
+          nama : name,
+          email : email,
+          message : message
+      }
   });
 
-  return res.redirect("/");
+  return res.redirect('/');
+
+
+
 });
 
 const daysAgo = (tanggal) => {
@@ -162,34 +183,62 @@ const daysAgo = (tanggal) => {
   return hasil === 0 ? "Today" : `${hasil} days ago`;
 }
 
-app.get("/messages", (req, res) => {
-  var search = req.query.pencarian;
-  var search2 = req.query.id;
-  var sql = `SELECT * FROM entry WHERE id_tiket REGEXP ? OR urgensi REGEXP ? OR no_telp REGEXP ? OR  kategori REGEXP ? OR nama REGEXP ? OR email REGEXP ? OR isi REGEXP ?`;
-
-  connection.query(sql, [search, search, search, search, search, search, search], (err, result) => {
-    if (err) {
-        console.error("Error Query 1:", err);
-        return res.status(500).send("Terjadi kesalahan" , err);
+app.get("/messages", async(req, res) => {
+  const search = req.query.pencarian;
+  const search2 = parseInt(req.query.id, 10);
+  // var sql = `SELECT * FROM entry WHERE id_tiket REGEXP ? OR urgensi REGEXP ? OR no_telp REGEXP ? OR  kategori REGEXP ? OR nama REGEXP ? OR email REGEXP ? OR isi REGEXP ?`;
+  
+  if(search){
+ const prismaSearch = await prismaClient.entry.findMany({
+    where : {
+      OR : [
+            {nama : {
+              contains : search
+            }},
+            {urgensi : {
+              contains : search
+            }},
+            {isi : {
+              contains : search
+            }},
+            {kategori : {
+              contains : search
+            }},
+            {judul : {
+              contains : search
+            }},
+            {no_telp : {
+              contains : search
+            }},
+            {email : {
+              contains : search
+            }}
+        
+      ]
     }
+  });
 
-    if (result.length > 0) {
-        return res.render('cekTiket', { data: result, daysAgo, user: req.session.nama });
-    }
-
-    connection.query(`SELECT * FROM entry WHERE id_pengirim = ?`, [search2], (err, result2) => {
-        if (err) {
-            console.error("Error Query 2:", err);
-            return res.status(500).send("Terjadi kesalahan");
-        }
-
-        if (result2.length > 0) {
-            return res.render('cekTiket', { data: result2, daysAgo, user: req.session.nama });
+    if (prismaSearch.length > 0) {
+            return res.render('cekTiket', { data: prismaSearch, daysAgo, user: req.session.nama });
         } else {
             return res.redirect('/?messageErr=true');
         }
-    });
-});
+
+  }else if(search2){
+      
+      const prismaRes = await prismaClient.entry.findMany({
+        where : {
+          id_pengirim : search2
+        }
+      })
+
+      if (prismaRes.length > 0) {
+            return res.render('cekTiket', { data: prismaRes, daysAgo, user: req.session.nama });
+        } else {
+            return res.redirect('/?messageErr=true');
+        }
+
+  }
 
 });
 
@@ -203,19 +252,8 @@ app.get('/' , (req,res) =>{
     res.render("home" , {messageErrr : req.query.messageErr,message : req.query.messageAdd,user : user1,name : req.session.nama,email : req.session.email , id_pengguna : req.session.id_pengguna});
 })
 
-app.post('/search',(req,res) => {
-  var search = req.body.pencarian;
-  var sql = `SELECT * FROM entry WHERE id_tiket REGEXP ? OR urgensi REGEXP ? OR no_telp REGEXP ? OR  kategori REGEXP ? OR nama REGEXP ? OR email REGEXP ? OR isi REGEXP ?`;
 
-  connection.query(sql,[search,search,search,search,search,search,search],(err,result) => {
-    if(result){
-      res.json(result);
-      console.log(result);
-    }else{res.send("ga ada");res.status(500)};
-  })
-})
-
-app.post("/add", cekLogin,(req, res) => {
+app.post("/add", cekLogin,async(req, res) => {
   const table = "entry";
   const name = req.body.nama;
   const judul = req.body.judul;
@@ -227,13 +265,21 @@ app.post("/add", cekLogin,(req, res) => {
 
   var sql = `INSERT INTO entry (nama, email, no_telp, judul, kategori, urgensi, isi,id_pengirim) VALUES ('${name}','${email}','${nomor_telp}','${judul}','${kategori}','${urgensi}','${isi}',${req.session.id_pengguna})`;
 
-  connection.query(sql, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500);
-    } else {
-      console.log("1 record inserted");
-    }
+ 
+  const createTiket = await prismaClient.entry.create({
+      data : {
+          nama : name,
+          email : email,
+          isi : isi,
+          judul : judul,
+          no_telp : nomor_telp,
+          id_pengirim : req.session.id_pengguna,
+          kategori : kategori,
+          urgensi : urgensi
+      },
+      select : {
+        id_tiket : true
+      }
   });
 
   return res.redirect(`/?messageAdd=true`);
@@ -245,18 +291,24 @@ app.get("/check-session", (req, res) => {
 });
 
 
-app.get('/tiket' , (req,res) => {
-  connection.query(`select*from entry where id_tiket = ${req.query.id}` , (err,result) => {
-    if(result){
-      connection.query(`select*from reply where id_tiket = ${req.query.id}` ,(err,result2) => {
-        if(result2){
-          res.render("tiket" , {user : req.session.nama , resultTiket : result , balasan : result2});
-        }
-      })
-    }else{
-      console.log(err)
+app.get('/tiket' , async(req,res) => {
+
+
+  const tiketPrisma = await prismaClient.entry.findFirst({
+    where : {
+      id_tiket : parseInt(req.query.id,10)
     }
   })
+
+  const replyPrisma = await prismaClient.reply.findMany({
+     where : {
+      id_tiket : parseInt(req.query.id,10)
+     }
+  })
+
+  if(tiketPrisma && replyPrisma){
+    res.render("tiket" , {user : req.session.nama , resultTiket : tiketPrisma , balasan : replyPrisma});
+  }
   
 })
 
@@ -274,18 +326,7 @@ app.get('/notif' , (req,res) => {
   res.render('notif')
 })
 
-app.get('/pembayaran' , (req,res) => {
-  nomor_pembayaran = req.query.nompem;
 
-  connection.query(`update transakasi_tb set status='Selesai',Uang = harga_akhir where id = ?` ,[nomor_pembayaran], (err,result) => {
-    if(result){
-     res.status(500).send("Pembayaran Selesai Silahkan Cek Kembali Menu Pembayaran.")
-    }else{
-      console.log(err);
-    }
-  })
-
-})
 
 
 
