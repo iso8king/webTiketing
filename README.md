@@ -17,5 +17,6 @@ Proyek aplikasi web sederhana untuk sistem helpdesk, dibuat sebagai bagian dari 
 - Bootstrap 5
 - HTML, CSS, JavaScript
 - EJS
+- Prisma ORM
 
 Terima Kasih Sudah Berkunjung😊
