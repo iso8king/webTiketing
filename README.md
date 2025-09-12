@@ -20,3 +20,5 @@ Proyek aplikasi web sederhana untuk sistem helpdesk, dibuat sebagai bagian dari 
 - Prisma ORM
 
 Terima Kasih Sudah Berkunjung😊
+
+//Preview web untuk backend nya tidak bekerja karena saya tidak memiliki vps
